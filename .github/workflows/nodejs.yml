@@ -3,20 +3,33 @@ name: Node.js CI
 on: [push]
 
 jobs:
+  build0:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: npm install say
+      working-directory: ./
+      env:
+        CI: true
+
   build:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        test: [1, 2, 3]
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Use Node.js 12
       uses: actions/setup-node@v1
       with:
-        node-version: ${{ matrix.node-version }}
-    - run: echo Hello, ${{ matrix.node-version }} world!
+        node-version: 12
+    - run: echo Hello, world!
+    - run: npm ls --depth=0
+      working-directory: ./
       env:
         CI: true
