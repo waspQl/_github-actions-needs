@@ -3,7 +3,18 @@ name: CI
 on: [push]
 
 jobs:
+  build0:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Run a one-line script
+      run: echo Hello, world in build0!
+    - name: cat file
+      run: touch text.txt && echo '** 0 **' >> text.txt && cat text.txt
+
   build1:
+    needs: [build0]
     runs-on: ubuntu-latest
 
     steps:
@@ -15,9 +26,11 @@ jobs:
         sleep 15 && date +"%Y/%m/%d %p %I:%M:%S"
         echo Add other actions to build,
         echo test, and deploy your project.
+    - name: cat file
+      run: touch text.txt && echo '** 1 **' >> text.txt && cat text.txt
 
   build2:
-    needs: [build1]
+    needs: [build0,build1]
     runs-on: ubuntu-latest
 
     steps:
@@ -29,9 +42,11 @@ jobs:
         sleep 10 && date +"%Y/%m/%d %p %I:%M:%S"
         echo Add other actions to build,
         echo test, and deploy your project.
+    - name: cat file
+      run: touch text.txt && echo '** 2 **' >> text.txt && cat text.txt
 
   build3:
-    needs: [build1,build2]
+    needs: [build0,build1,build2]
     runs-on: ubuntu-latest
 
     steps:
@@ -43,3 +58,5 @@ jobs:
         sleep 0 && date +"%Y/%m/%d %p %I:%M:%S"
         echo Add other actions to build,
         echo test, and deploy your project.
+    - name: cat file
+      run: touch text.txt && echo '** 3 **' >> text.txt && cat text.txt
