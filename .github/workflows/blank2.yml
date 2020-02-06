@@ -17,6 +17,7 @@ jobs:
         echo test, and deploy your project.
 
   build2:
+    needs: [build1]
     runs-on: ubuntu-latest
 
     steps:
@@ -30,6 +31,7 @@ jobs:
         echo test, and deploy your project.
 
   build3:
+    needs: [build1,build2]
     runs-on: ubuntu-latest
 
     steps:
